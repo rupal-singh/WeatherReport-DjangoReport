@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Report</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <!-- leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+</head>
+
+<body>
+    <div>
+        <form action="/" method="POST">
+            {% csrf_token %}
+            <center>
+                <H1 style="color: indigo;">Get Weather Report</H1>
+
+                <div class="col-sm-9">
+                    <input type="text" style="color: green; font-size: x-large; text-align: center;"
+                        class="form-control w-50" id="lati" placeholder="Latitude" name="lati" required>
+                </div><br>
+                <div class="col-sm-9">
+                    <input type="text" style="color: green; font-size: x-large; text-align: center;"
+                        class="form-control w-50" id="longi" placeholder="Longitude" name="longi" required>
+                </div>
+                <br><br>
+                <input type="submit" class="w-25 btn btn-lg btn-primary" value="Get Weather Report">
+            </center>
+
+        </form>
+
+        {% if temp %}
+        <center>
+            <div class="card my-5" style="width: 50%;">
+                <h3 style="text-align: center; color: red;"> <b>Weather details</b> </h3><br>
+                <h4> <b style="color: indianred;">Location:</b> {{ city }} </h4>
+                <h4> <b style="color: indianred;">Temperature:</b> {{ temp }} </h4>
+                <h4> <b style="color: indianred;">Wind Speed:</b> {{ windSpeed }}</h4>
+                <h4> <b style="color: indianred;">Wind Direction: </b> {{ direction }}</h4>
+                <p class="card-text">{{ desc }}</p>
+            </div>
+        </center>
+        {% elif Error %}
+        <center>
+            <div class="card flex-row flex-wrap my-3" style="width: 50%;">
+                <center>
+                    <h4 style="color: red;">{{ Error }}</h4>
+                </center>
+            </div>
+        </center>
+        {% else %}
+        <center>
+            <div class="card flex-row flex-wrap my-3" style="width: 50%;">
+                <center>
+                    <h4 style="color: green;">Please select a location</h4>
+                </center>
+            </div>
+        </center>
+        {% endif %}
+
+        <div id="map" style="height: 500px; top: 10px; bottom: 20px;">
+
+        </div>
+    </div>
+</body>
+<script src="{% static 'js/leaflet.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+</html>
